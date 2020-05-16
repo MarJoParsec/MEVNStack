@@ -55,4 +55,4 @@ mongoose.connect(uri, options).then(
     err => { console.log(err) }
 );
 
-app.use('/api', require('./routes/note'))
+app.use('/api', require('./routes/note'));
