@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const morgan = require('morgan')
-const cors = require('cors')
-const path = require('path')
-const history = require('connect-history-api-fallback')
+const morgan = require('morgan');
+const cors = require('cors');
+const path = require('path');
+const history = require('connect-history-api-fallback');
+const mongoose = require('mongoose');
 /* Server */
 
 app.get('/', function(req, res) {
@@ -40,3 +41,18 @@ con un archivo index.html para mostrar un resultado,
 de igual forma configuraremos nuestro archivo app.js */
 app.use(history());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+/* Conexion Base de Datos */
+const uri = 'mongodb://localhost:27017/mevn-stack-tutorial';
+const options = {useNewUrlParser: true, useCreateIndex: true};
+
+//Using Promises
+mongoose.connect(uri, options).then(
+    /** ready to use. The `mongoose.connect()` promise resolves to mongoose instance. */
+    () => { console.log('Conectado a Base de Datos') },
+    /** handle initial connection error */
+    err => { console.log(err) }
+);
+
+app.use('/api', require('./routes/note'));
